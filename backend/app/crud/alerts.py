@@ -1,20 +1,45 @@
 from sqlalchemy.orm import Session
+
 from app.models.alert import Alert
-from app.schemas.alert import AlertCreate
+
+from app.agents.soc_agent import analyze_alert
+
+from app.services.vector_store import store_alert
 
 
-def create_alert(db: Session, alert: AlertCreate):
+def create_alert(db, alert):
+
+    ai = analyze_alert(db, alert)
+
+    if ai["duplicate"]:
+
+        return None
 
     db_alert = Alert(
-        severity=alert.severity,
-        source=alert.source,
-        ip=alert.ip,
+
+        title=alert.title,
+
         description=alert.description,
+
+        severity=ai["severity"],
+
+        category=ai["category"],
+
+        summary=ai["summary"],
+
+        recommendation="\n".join(ai["actions"]),
+
+        status="OPEN"
+
     )
 
     db.add(db_alert)
+
     db.commit()
+
     db.refresh(db_alert)
+
+    store_alert(db_alert)
 
     return db_alert
 

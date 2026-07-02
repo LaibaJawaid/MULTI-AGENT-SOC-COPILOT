@@ -1,28 +1,43 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter
+
+from fastapi import Depends
+
+from fastapi import HTTPException
+
 from sqlalchemy.orm import Session
 
 from app.db.postgres import get_db
+
 from app.schemas.alert import AlertCreate
+
 from app.crud.alerts import create_alert, get_alerts
 
-router = APIRouter(
-    prefix="/alerts",
-    tags=["Alerts"]
-)
+
+router = APIRouter(tags=["Alerts"])
 
 
-@router.post("/")
-def add_alert(
-    alert: AlertCreate,
-    db: Session = Depends(get_db)
-):
+@router.post("/alerts")
 
-    return create_alert(db, alert)
+def create(alert: AlertCreate,
+           db: Session = Depends(get_db)):
+
+    result = create_alert(db, alert)
+
+    if result is None:
+
+        raise HTTPException(
+
+            status_code=400,
+
+            detail="Duplicate Alert"
+
+        )
+
+    return result
 
 
-@router.get("/")
-def read_alerts(
-    db: Session = Depends(get_db)
-):
+@router.get("/alerts")
+
+def read(db: Session = Depends(get_db)):
 
     return get_alerts(db)

@@ -1,14 +1,31 @@
 from pydantic import BaseModel
-from datetime import datetime
 
 
 class AlertCreate(BaseModel):
-    severity: str
-    source: str
-    ip: str
+
+    title: str
+
     description: str
 
 
-class AlertResponse(AlertCreate):
+class AlertResponse(BaseModel):
+
     id: int
-    created_at: datetime
+
+    title: str
+
+    description: str
+
+    severity: str
+
+    category: str
+
+    summary: str
+
+    recommendation: str
+
+    status: str
+
+    class Config:
+
+        from_attributes = True
