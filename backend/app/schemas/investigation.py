@@ -1,6 +1,5 @@
 from pydantic import BaseModel
 
-
 class InvestigationRequest(BaseModel):
     title: str
     description: str
@@ -13,3 +12,14 @@ class InvestigationResponse(BaseModel):
     summary: str
     playbook: str
     graph_entities: list
+
+
+class InvestigationResult(BaseModel):
+
+    severity: str
+
+    summary: str
+
+    confidence: int
+
+    reasons: list[str]

@@ -14,6 +14,13 @@ from app.api.rag import router as rag_router
 
 from app.api.investigate import router as investigate_router
 
+from app.api.history import router as history_router
+
+from app.api.investigation import router as explain_router
+
+from app.api.recommend import router as recommend_router
+
+
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
@@ -27,6 +34,9 @@ app.include_router(graph_router)
 app.include_router(investigate_router)
 app.include_router(rag_router)
 app.include_router(investigate_router)
+app.include_router(history_router)
+app.include_router(explain_router)
+app.include_router(recommend_router)
 
 @app.get("/")
 def root():
