@@ -6,6 +6,8 @@ from app.agents.soc_agent import analyze_alert
 
 from app.services.vector_store import store_alert
 
+from app.services.graph import save_alert_graph
+
 
 def create_alert(db, alert):
 
@@ -40,6 +42,8 @@ def create_alert(db, alert):
     db.refresh(db_alert)
 
     store_alert(db_alert)
+
+    save_alert_graph(db_alert)
 
     return db_alert
 

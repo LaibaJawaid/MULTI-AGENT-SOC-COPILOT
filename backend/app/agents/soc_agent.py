@@ -10,6 +10,8 @@ from app.services.gpt_service import generate_summary
 
 from app.services.remediation import recommend_action
 
+from app.services.GraphandQuery import get_related
+
 
 def analyze_alert(db: Session, alert):
 
@@ -36,6 +38,8 @@ def analyze_alert(db: Session, alert):
         category
     )
 
+    related = get_related(category)
+
     return {
 
         "duplicate": duplicate,
@@ -46,6 +50,8 @@ def analyze_alert(db: Session, alert):
 
         "summary": summary,
 
-        "actions": actions
+        "actions": actions,
+
+        "related": related
 
     }
