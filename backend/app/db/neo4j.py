@@ -38,3 +38,9 @@ def check_neo4j():
         print(e)
 
         return False
+    
+def search_vectors(query: str):
+    return []
+
+def search_iocs(query: str):
+    return []

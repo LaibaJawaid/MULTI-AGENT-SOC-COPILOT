@@ -55,3 +55,4 @@ def analyze_alert(db: Session, alert):
         "related": related
 
     }
+

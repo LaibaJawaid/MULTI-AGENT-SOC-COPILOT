@@ -1,31 +1,62 @@
-from app.agents.soc_agent import process_alert
+from app.graph.workflow import graph
 
-from app.rag.hybrid_search import hybrid_search
 
-from app.db.neo4j import search_iocs
+"""
+Supervisor Agent
+
+This is the brain of the SOC.
+
+Responsibilities
+
+1. Run LangGraph
+
+2. Decide which tools to use
+
+3. Return final response
+"""
+
+from app.graph.workflow import graph
+
+from app.mcp.registry import TOOLS
 
 
 def investigate(alert):
 
-    # Step 1
-    result = process_alert(alert)
+    # -----------------------------
+    # Initial shared state
+    # -----------------------------
+    state = {
 
-    # Step 2
-    playbook = hybrid_search(result["summary"])
+        "title": alert.title,
 
-    # Step 3
-    graph = search_iocs(result["summary"])
+        "description": alert.description,
 
-    return {
+        "severity": alert.severity,
 
-        "classification": result["classification"],
+        "classification": "",
 
-        "severity": result["severity"],
+        "summary": "",
 
-        "summary": result["summary"],
+        "playbook": [],
 
-        "playbook": playbook,
-
-        "graph_entities": graph
+        "graph_entities": []
 
     }
+
+    # -----------------------------
+    # Execute LangGraph workflow
+    # -----------------------------
+    result = graph.invoke(state)
+
+    # -----------------------------
+    # Example:
+    # Automatically block IP
+    # if severity is HIGH
+    # -----------------------------
+    if result["severity"] == "HIGH":
+
+        firewall = TOOLS["firewall"]
+
+        result["action"] = firewall("192.168.1.10")
+
+    return result
