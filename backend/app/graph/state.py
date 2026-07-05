@@ -25,3 +25,6 @@ class InvestigationState(TypedDict):
     playbook: list
 
     graph_entities: list
+
+        # Threat Intelligence
+    threat_intel: dict

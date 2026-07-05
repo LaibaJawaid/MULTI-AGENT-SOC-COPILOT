@@ -8,6 +8,8 @@ from app.agents.soc_agent import analyze_alert
 from app.rag.hybrid_search import hybrid_search
 from app.db.neo4j import search_iocs
 from app.services.investigation_store import save_investigation
+from app.agents.recommendation_agent import generate_recommendations
+from app.agents.threat_agent import analyze_threat
 from app.graph import state
 from app.graph import nodes
 
@@ -56,3 +58,20 @@ def summary_node(state):
     return {
         "summary": summary
     }
+
+def recommendation_node(state):
+
+    return generate_recommendations(state)
+
+def threat_node(state):
+
+    """
+    Executes Threat Intelligence Agent.
+
+    Adds MITRE IDs,
+    IOC information,
+    Abuse Score,
+    etc.
+    """
+
+    return analyze_threat(state)

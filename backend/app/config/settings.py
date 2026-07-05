@@ -26,6 +26,7 @@ class Settings(BaseSettings):
 
     # OpenAI
     OPENAI_API_KEY: str = ""
+    OPENAI_MODEL: str = "gpt-4.1-mini"
     OPENAI_EMBEDDING_MODEL: str = "text-embedding-3-small"
 
     model_config = SettingsConfigDict(
