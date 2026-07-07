@@ -28,3 +28,6 @@ class InvestigationState(TypedDict):
 
         # Threat Intelligence
     threat_intel: dict
+
+    # Extracted Indicators of Compromise
+    iocs: dict

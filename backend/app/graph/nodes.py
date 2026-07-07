@@ -65,13 +65,18 @@ def recommendation_node(state):
 
 def threat_node(state):
 
-    """
-    Executes Threat Intelligence Agent.
+     """
+    Executes Threat Agent.
 
-    Adds MITRE IDs,
-    IOC information,
-    Abuse Score,
-    etc.
+    This node extracts:
+
+    - IOC
+
+    - MITRE
+
+    - Abuse Score
+
+    - Threat Metadata
     """
 
-    return analyze_threat(state)
+     return analyze_threat(state)

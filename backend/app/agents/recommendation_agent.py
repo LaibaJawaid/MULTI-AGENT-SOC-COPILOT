@@ -14,6 +14,7 @@ for final recommendations.
 """
 
 from app.services.LLM import ask_llm
+from app.tools.registry import use_tool
 
 
 def generate_recommendations(state):
@@ -25,6 +26,12 @@ def generate_recommendations(state):
     graph = state["graph_context"]
 
     threat = state["threat_intel"]
+
+    ioc = state["iocs"]
+
+    mitre = use_tool("mitre", summary)
+
+    vt = use_tool("virustotal", summary)
 
     prompt = f"""
 You are an expert SOC analyst.
@@ -54,6 +61,28 @@ Abuse Score:
 
 Malicious:
 {threat["malicious"]}
+
+
+Indicators of Compromise
+
+IPs:
+{ioc["ips"]}
+
+Domains:
+{ioc["domains"]}
+
+URLs:
+{ioc["urls"]}
+
+Hashes:
+{ioc["hashes"]}
+
+MITRE:
+{mitre}
+
+VirusTotal:
+{vt}
+
 
 Generate:
 

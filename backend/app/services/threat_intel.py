@@ -16,9 +16,12 @@ real APIs will be integrated.
 """
 
 from typing import Dict
+from app.services.ioc_extractor import extract_iocs
 
 
 def lookup_threat(alert: Dict):
+
+    iocs = extract_iocs(alert["description"])
 
     description = alert["description"].lower()
 
@@ -29,6 +32,8 @@ def lookup_threat(alert: Dict):
     if "powershell" in description:
 
         return {
+
+            "iocs": iocs,
 
             "ioc_type": "PowerShell",
 

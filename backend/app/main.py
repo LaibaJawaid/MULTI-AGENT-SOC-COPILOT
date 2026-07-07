@@ -11,6 +11,9 @@ from app.api.rag import router as rag_router
 from app.api.history import router as history_router
 from app.api.investigation import router as explain_router
 from app.api.threat import router as threat_router
+from app.api.audit import router as audit_router
+from app.api.dashboard import router as dashboard_router
+from app.api.auth import router as auth_router
 
 Base.metadata.create_all(bind=engine)
 
@@ -27,6 +30,9 @@ app.include_router(rag_router)
 app.include_router(history_router)
 app.include_router(explain_router)
 app.include_router(threat_router)
+app.include_router(audit_router)
+app.include_router(dashboard_router)
+app.include_router(auth_router)
 
 @app.get("/")
 def root():

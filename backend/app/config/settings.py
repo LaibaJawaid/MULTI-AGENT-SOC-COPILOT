@@ -33,5 +33,14 @@ class Settings(BaseSettings):
         env_file=".env"
     )
 
+    # ----------------------------
+# Threat Intelligence APIs
+# ----------------------------
+
+# VirusTotal API Key
+VIRUSTOTAL_API_KEY: str = ""
+
+# AbuseIPDB API Key
+ABUSEIPDB_API_KEY: str = ""
 
 settings = Settings()
